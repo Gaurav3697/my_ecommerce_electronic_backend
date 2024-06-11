@@ -18,6 +18,15 @@ exports.getAllProducts=catchAsyncError(async(req,res,next)=>{
         })
     })
 
+//get Product Detail
+exports.getProductDetail=catchAsyncError(async(req,res,next)=>{
+    const product = await Product.findById(req.params.id);
+    res.status(200).json({
+        message:"Route is working",
+        product,
+    })
+})
+
 //create a product --admin
 exports.createProduct = catchAsyncError(async(req,res,next) =>{
     req.body.user = req.user.id;  //it will send user id  to the req.body.user
@@ -61,14 +70,14 @@ exports.deleteProduct = catchAsyncError(async(req,res,next) =>{
 
 // Create review 
 exports.createReview = catchAsyncError(async(req,res,next)=>{
-    const {rating,productId,comment} = req.body;
+    const {rating,comment} = req.body;
     const review = {
         user:req.user._id,
         name:req.user.name,
         rating:Number(rating),  // converting rating to number
         comment                 
     };
-    const product = await Product.findById(productId);
+    const product = await Product.findById(req.params.id);
     const isReviewed = product.reviews.find((rev)=>
         rev.user.toString() === req.user._id.toString()
     )

@@ -23,11 +23,11 @@ const userSchema = new mongoose.Schema({
     avatar:{
             public_id:{
                 type:String,
-                required:true,
+                // required:true,
             },
             url:{
                 type:String,
-                required:true,
+                // required:true,
             }
         },
         role:{
@@ -54,7 +54,7 @@ const userSchema = new mongoose.Schema({
     //jwt Token or cookie fuction
     userSchema.methods.getJWTToken = function () {
         return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-          expiresIn: process.env.JWT_EXPIRE,
+          expiresIn: 15*60*60*1000,
         });
       };
 

@@ -12,7 +12,7 @@ module.exports = (error,req,res,next)=>{
 
     //Mongoose Duplicate Key Error
     if(error.code === 11000){
-        const message = `Duplicate object Key ${err.keyValue} Entered`
+        const message = `Duplicate object Key ${error.keyValue} Entered`
         error = new ErrorHandler(message,400);
     }
 
