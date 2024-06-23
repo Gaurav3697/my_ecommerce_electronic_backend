@@ -2,12 +2,14 @@ const Order = require("../model/orderModels");
 const ErrorHandler = require("../utils/errorHandler")
 const catchAsyncError = require("../middleware/catchAsyncError");
 const Product = require("../model/productModel");
+
 exports.newOrder=catchAsyncError(async(req,res,next)=>{
-    const newOrder = {
+    console.log("I am in");
+    const {
         shippingInfo,
         orderItems,
         paymentInfo,
-        itemsPrice,
+        itemPrice,  
         taxPrice,
         shippingPrice,
         totalPrice,
@@ -16,14 +18,15 @@ exports.newOrder=catchAsyncError(async(req,res,next)=>{
         shippingInfo,
         orderItems,
         paymentInfo,
-        itemsPrice,
+        itemPrice,
         taxPrice,
         shippingPrice,
         totalPrice,
         paidAt:Date.now(),
         user:req.user._id
     });
-    res.status(200).json({
+
+    res.status(201).json({
         success:true,
         order
     })
@@ -35,21 +38,22 @@ exports.getSingleOrder = catchAsyncError(async(req,res,next)=>{
     if(!order){
         return next(new ErrorHandler("order doesn't exists with this id",400));
     }
+
     res.status(200).json({
         success:true,
         order
     })
 })
 
-// //logged in users --// get logged in user  Orders --cannot read property of undefined _id
-// exports.myOrders = catchAsyncError(async (req, res, next) => {
-//     const orders = await Order.find({ user: req.user._id });
+//logged in users --// get logged in user  Orders --cannot read property of undefined _id
+exports.myOrders = catchAsyncError(async (req, res, next) => {
+    const orders = await Order.find({ user: req.user._id });  
   
-//     res.status(200).json({ 
-//       success: true,
-//       orders,
-//     });
-//   });
+    res.status(200).json({ 
+      success: true,
+      orders,
+    });
+  });
 
 
 // get all Orders --Admin
@@ -73,7 +77,8 @@ exports.updateOrderStatus = catchAsyncError(async(req,res,next)=>{
     }
     if (req.body.status === "Shipped") {
         order.orderItems.forEach(async (o) => {
-          await updateStock(o.product, o.quantity);
+            //I think this function is formed till yet may be
+            await updateStock(o.product, o.quantity); 
         });
     }
     order.orderStatus = req.body.status;

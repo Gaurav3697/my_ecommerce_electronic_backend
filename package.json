@@ -26,7 +26,7 @@
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.13",
     "react-alert-template-basic": "^1.0.2",
-    "stripe": "^15.7.0",
+    "stripe": "^15.11.0",
     "validator": "^13.12.0",
     "webfontloader": "^1.6.28"
   }

@@ -2,11 +2,10 @@ const Product = require("../model/productModel");
 const ErrorHandler = require("../utils/errorHandler")
 const catchAsyncError = require("../middleware/catchAsyncError");
 const ApiFeature = require("../utils/apiFeatures");
-const isAuthenticated = require("../middleware/auth.js")
 
 //Get All Products
 exports.getAllProducts=catchAsyncError(async(req,res,next)=>{
-        const resultPerPage = 10;
+        const resultPerPage = 4;
         const productCount = await Product.countDocuments();
         const apiFeature = new ApiFeature(Product.find(),req.query).search().filter();
         apiFeature.pagination(resultPerPage);
@@ -14,7 +13,8 @@ exports.getAllProducts=catchAsyncError(async(req,res,next)=>{
         res.status(200).json({
             message:"Route is working",
             products,
-            productCount
+            productCount,
+            resultPerPage
         })
     })
 
@@ -68,7 +68,7 @@ exports.deleteProduct = catchAsyncError(async(req,res,next) =>{
 
 //Review controller
 
-// Create review 
+// Create review --> Frontend is werking very well but review is not being submitted--I will debut it later
 exports.createReview = catchAsyncError(async(req,res,next)=>{
     const {rating,comment} = req.body;
     const review = {
