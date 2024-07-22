@@ -11,7 +11,6 @@ const connectDatabase = () => {
         console.error(`Error connecting to MongoDB: ${error.message}`);
       });
   };
-  
 
 module.exports = connectDatabase;
 
