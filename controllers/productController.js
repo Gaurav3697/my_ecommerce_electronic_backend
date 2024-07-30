@@ -2,6 +2,8 @@ const Product = require("../model/productModel");
 const ErrorHandler = require("../utils/errorHandler")
 const catchAsyncError = require("../middleware/catchAsyncError");
 const ApiFeature = require("../utils/apiFeatures");
+const cloudinary = require('cloudinary').v2;
+
 
 //Get All Products
 exports.getAllProducts=catchAsyncError(async(req,res,next)=>{
@@ -18,6 +20,8 @@ exports.getAllProducts=catchAsyncError(async(req,res,next)=>{
         })
     })
 
+
+
 //get Product Detail
 exports.getProductDetail=catchAsyncError(async(req,res,next)=>{
     const product = await Product.findById(req.params.id);
@@ -27,15 +31,54 @@ exports.getProductDetail=catchAsyncError(async(req,res,next)=>{
     })
 })
 
-//create a product --admin
-exports.createProduct = catchAsyncError(async(req,res,next) =>{
-    req.body.user = req.user.id;  //it will send user id  to the req.body.user
-    const product = await Product.create(req.body);
-    res.status(201).json({
-        success:true,
-        product
+    //get all product --admin
+    exports.getAdminProduct=catchAsyncError(async(req, res, next)=>{
+        const products = await Product.find();
+        res.status(200).json({
+            message:"Route is working",
+            products,
+        })
     })
-});
+
+    //create Product
+exports.createProduct = catchAsyncError(async (req, res, next) => {
+    let images = [];
+  
+    if (typeof req.body.images === "string") {
+      images.push(req.body.images);
+    } else {
+      images = req.body.images;
+    }
+  
+    const imagesLinks = [];
+  
+    for (let i = 0; i < images.length; i++) {
+    //   const result = await cloudinary.v2.uploader.upload(images[i], {
+    //     folder: "products",
+    //   });
+     const result = await cloudinary.uploader.upload(images[i], {
+        folder: "products",  //read on documentation of cloudinary
+        resource_type: "image"
+        // resource_type: "auto" //to send file other than image but in this case i will put image
+     });
+
+     imagesLinks.push({
+        public_id: result.public_id,
+        url: result.secure_url,
+      });
+    }
+  
+    req.body.images = imagesLinks;
+    req.body.user = req.user.id;
+  
+    const product = await Product.create(req.body);
+  
+    res.status(201).json({
+      success: true,
+      product,
+    });
+  });
+  
 
 //update product --admin
 exports.updateProduct = catchAsyncError(async(req,res,next) =>{
@@ -66,8 +109,9 @@ exports.deleteProduct = catchAsyncError(async(req,res,next) =>{
         })
     })
 
-//Review controller
 
+
+//Review controller
 // Create review --> Frontend is werking very well but review is not being submitted--I will debut it later
 exports.createReview = catchAsyncError(async(req,res,next)=>{
     const {rating,comment} = req.body;

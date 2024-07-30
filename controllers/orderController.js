@@ -4,7 +4,6 @@ const catchAsyncError = require("../middleware/catchAsyncError");
 const Product = require("../model/productModel");
 
 exports.newOrder=catchAsyncError(async(req,res,next)=>{
-    console.log("I am in");
     const {
         shippingInfo,
         orderItems,

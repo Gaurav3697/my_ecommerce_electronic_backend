@@ -193,7 +193,7 @@ exports.getSingleUser = catchAsyncError(async (req, res, next) => { //not tested
     })
 })
 
-//Make a function to update users role
+//Make a function to update users role --admin
 exports.updateUserRole = catchAsyncError(async (req, res, next) => { //not tested
     const newUserData = {
         name: req.body.name,
@@ -211,7 +211,7 @@ exports.updateUserRole = catchAsyncError(async (req, res, next) => { //not teste
     })
 })
 
-//Make a function to delete users
+//Make a function to delete users -- admin features
 exports.deleteUser = catchAsyncError(async (req, res, next) => {   //not tested
     const user = await User.findById(req.params.id);
     if (!user) {
@@ -224,6 +224,7 @@ exports.deleteUser = catchAsyncError(async (req, res, next) => {   //not tested
     })
 })
 
+// just increasing LOC
 exports.myOrders = catchAsyncError(async (req, res, next) => {
     const user = await User.findById(req.user._id);
     // const orders = await Order.find({ user: req.user.id });  //it it getting id

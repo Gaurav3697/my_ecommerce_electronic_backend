@@ -1,5 +1,6 @@
 const app = require("./app.js");
 const connectDatabase = require("./config/database");
+const cloudinary = require('cloudinary').v2;
 
 
 //config
@@ -10,6 +11,11 @@ if (process.env.NODE_ENV !== "PRODUCTION") {   //if the project will be in produ
 // Connecting to database
 connectDatabase();
 
+cloudinary.config({ 
+    cloud_name: process.env.Cloud_name, 
+    api_key: process.env.API_key, 
+    api_secret: process.env.API_secret // Click 'View Credentials' below to copy your API secret
+});
 
 //Code for unhandles promise rejection occurs
 process.on("unhandledRejection", (err) => {

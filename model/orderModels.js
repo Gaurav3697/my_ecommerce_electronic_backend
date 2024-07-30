@@ -22,9 +22,9 @@ const orderSchema = new mongoose.Schema({
         required:true,
     },
    paymentInfo:{
-    id:{type:String,required:true,require:true,},
-    Status:{type:String,required:true,require:true,},
-    paidAt:{type:Date,required:true,require:true,},
+    id:{type:String,required:true},
+    Status:{type:String,required:true},
+    paidAt:{type:Date,required:true},
    },
     itemPrice:{type:Number,required:true,Default:0,},
     taxPrice:{type:Number,Default:0,required:true,},
