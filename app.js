@@ -31,13 +31,13 @@ app.use(bodyParser.urlencoded({extended:true}));
 const product = require("./routes/productRoutes");
 const user = require("./routes/userRoutes");
 const order = require("./routes/orderRoutes");
-// const payment = require("./routes/paymentRoutes");
+const payment = require("./routes/paymentRoutes");
 
 //using the routes
 app.use("/api/v1",product);
 app.use("/api/v1",user);
 app.use("/api/v1",order);
-// app.use("/api/v1",payment);
+app.use("/api/v1",payment);
 
 //Middleware for errors
 app.use(errorMiddleware);

@@ -28,6 +28,7 @@
     "nodemailer": "^6.9.13",
     "react-alert-template-basic": "^1.0.2",
     "stripe": "^15.11.0",
+    "uuid": "^10.0.0",
     "validator": "^13.12.0",
     "webfontloader": "^1.6.28"
   }
