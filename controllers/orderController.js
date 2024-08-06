@@ -6,17 +6,17 @@ const Product = require("../model/productModel");
 exports.newOrder=catchAsyncError(async(req,res,next)=>{
     const {
         shippingInfo,
-        orderItems,
-        paymentInfo,
-        itemPrice,  
+        orderItem,
+        payments,
+        itemPrice,
         taxPrice,
         shippingPrice,
         totalPrice,
     } = req.body;
     const order = await Order.create({
         shippingInfo,
-        orderItems,
-        paymentInfo,
+        orderItem,
+        payments,
         itemPrice,
         taxPrice,
         shippingPrice,

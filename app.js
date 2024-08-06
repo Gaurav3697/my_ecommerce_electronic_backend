@@ -16,6 +16,8 @@ if(process.env.NODE_ENV!=="PRODUCTION"){
 
 //app.use section
 app.use(fileUpload());
+app.use(express.json());
+app.use(cookieParser());
 app.use(
     cors({
       origin: [process.env.FRONTEND_URL],
@@ -23,8 +25,6 @@ app.use(
       credentials: true,
     })
   );
-app.use(express.json());
-app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:true})); 
 
 //Route imports
