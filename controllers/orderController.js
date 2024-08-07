@@ -75,9 +75,9 @@ exports.updateOrderStatus = catchAsyncError(async(req,res,next)=>{
         return next(new ErrorHandler("You has Already delivered this order",400));
     }
     if (req.body.status === "Shipped") {
-        order.orderItems.forEach(async (o) => {
+        order.orderItem.forEach(async (o) => {
             //I think this function is formed till yet may be
-            await updateStock(o.product, o.quantity); 
+            await updateStock(o.product, o.quantity);
         });
     }
     order.orderStatus = req.body.status;
@@ -106,3 +106,11 @@ exports.deleteOrder = catchAsyncError(async(req,res,next)=>{
         message:"Order Removed" 
     })
 })
+
+async function updateStock(id, quantity) {
+    const product = await Product.findById(id);
+  
+    product.stock -= quantity;
+  
+    await product.save({ validateBeforeSave: false });
+  }
